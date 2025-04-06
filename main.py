@@ -9,6 +9,9 @@ def main():
     x = SCREEN_WIDTH / 2
     y = SCREEN_HEIGHT / 2
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    updatable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+    Player.containers = (updatable, drawable)
     player = Player(x, y, PLAYER_RADIUS)
 
     while True:
@@ -19,8 +22,9 @@ def main():
         #fill screen with color black
         screen.fill((0, 0, 0))
         #draw player 
-        player.update(dt)
-        player.draw(screen)
+        updatable.update(dt)
+        for drawings in drawable:
+            drawings.draw(screen)
         #flip display
         pygame.display.flip()
         #maintain 60fps

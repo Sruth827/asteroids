@@ -1,3 +1,4 @@
 # asteroids
 
-test
+pygame of asteroids:wq
+
