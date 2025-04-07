@@ -1,18 +1,29 @@
 import pygame
 from constants import *
 from player import *
+from asteroid import Asteroid
+from asteroidfield import AsteroidField
 
 def main(): 
+    #initialize
     pygame.init()
+    #create clock so fps can be capped
     clock = pygame.time.Clock()
+    
     dt = 0
     x = SCREEN_WIDTH / 2
     y = SCREEN_HEIGHT / 2
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    
+    #groups to be used as containers
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
+    asteroids = pygame.sprite.Group()
     Player.containers = (updatable, drawable)
+    Asteroid.containers = (asteroids, updatable, drawable)
+    AsteroidField.containers = (updatable)
     player = Player(x, y, PLAYER_RADIUS)
+    asteroidfield = AsteroidField()
 
     while True:
         for event in pygame.event.get():
