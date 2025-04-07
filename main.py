@@ -1,4 +1,6 @@
+import sys
 import pygame
+from pygame.sprite import Group
 from constants import *
 from player import *
 from asteroid import Asteroid
@@ -16,13 +18,17 @@ def main():
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     
     #groups to be used as containers
-    updatable = pygame.sprite.Group()
-    drawable = pygame.sprite.Group()
-    asteroids = pygame.sprite.Group()
+    updatable = Group()
+    drawable = Group()
+    asteroids = Group()
+    shots_group = Group()
     Player.containers = (updatable, drawable)
     Asteroid.containers = (asteroids, updatable, drawable)
     AsteroidField.containers = (updatable)
+    Shot.containers = (shots_group, updatable, drawable)
+    
     player = Player(x, y, PLAYER_RADIUS)
+    player.shots_group = shots_group
     asteroidfield = AsteroidField()
 
     while True:
