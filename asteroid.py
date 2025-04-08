@@ -8,8 +8,11 @@ class Asteroid(CircleShape):
         super().__init__(x, y, radius)
 
     def draw(self, screen):
-        pygame.draw.circle(screen, (255, 255, 255, 1), self.position, self.radius, 2)
-
+        asteroid_image = pygame.image.load("asteroid_transparent.png").convert_alpha()
+        scaled_asteroid_image = pygame.transform.scale(asteroid_image, (self.radius * 2 , self.radius * 2))
+        rect = scaled_asteroid_image.get_rect(center=self.position)
+        screen.blit(scaled_asteroid_image, rect )
+        
     def update(self, dt):
         self.position += (self.velocity * dt)
 

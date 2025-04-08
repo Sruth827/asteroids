@@ -35,6 +35,15 @@ def main():
     player.shots_group = shots_group
     asteroidfield = AsteroidField()
 
+    craft_image = pygame.image.load('spacecraft.png').convert_alpha()
+    try: 
+        size = (player.triangle()[0], player.triangle()[1] + player.triangle()[2] / 2)
+        craft_image = pygame.transform.scale(craft_image, size)
+    except (TypeError, IndexError) as e:
+        print(f"Error in size calculation: {e}")
+
+
+
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -61,7 +70,7 @@ def main():
         #flip display
         pygame.display.flip()
         #maintain 60fps
-        dt = clock.tick(144) / 1000
+        dt = clock.tick(60) / 1000
 
     print("Starting Asteroids!")
     print(f"Screen width: {SCREEN_WIDTH}")

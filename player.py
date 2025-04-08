@@ -1,3 +1,4 @@
+import pygame
 from constants import PLAYER_RADIUS, PLAYER_TURN_SPEED, PLAYER_SPEED, SHOT_RADIUS, PLAYER_SHOT_SPEED, PLAYER_SHOOT_COOLDOWN
 from circleshape import *
 from shot import Shot
@@ -17,7 +18,11 @@ class Player(CircleShape):
         return [a, b, c]
 
     def draw(self, screen):
-        pygame.draw.polygon(screen, (255, 255, 255, 1), self.triangle(), 2)
+        craft_image = pygame.image.load("spacecraft.png").convert_alpha()
+        scaled_craft_image = pygame.transform.scale(craft_image, (self.radius *3, self.radius *3))
+        rotated_craft_image = pygame.transform.rotate(scaled_craft_image, -self.rotation + 270)
+        rect = rotated_craft_image.get_rect(center=self.position)
+        screen.blit(rotated_craft_image, rect)
 
     def rotate(self, dt):
         self.rotation += PLAYER_TURN_SPEED * dt
