@@ -17,6 +17,11 @@ def main():
     y = SCREEN_HEIGHT / 2
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     
+    #background image 
+    bg_image = pygame.image.load('space.jpg')
+    bg_image = pygame.transform.scale(bg_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
+
+
     #groups to be used as containers
     updatable = Group()
     drawable = Group()
@@ -37,7 +42,8 @@ def main():
                 return
         
         #fill screen with color black
-        screen.fill((0, 0, 0))
+        screen.blit(bg_image, (0, 0))
+        
         #draw player 
         updatable.update(dt)
         for asteroid in asteroids:
