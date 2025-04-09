@@ -21,6 +21,8 @@ def main():
     bg_image = pygame.image.load('space.jpg')
     bg_image = pygame.transform.scale(bg_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
+    asteroid_image = pygame.image.load("asteroid_transparent.png").convert_alpha()
+    
     #groups to be used as containers
     updatable = Group()
     drawable = Group()
@@ -33,7 +35,7 @@ def main():
     
     player = Player(x, y, PLAYER_RADIUS)
     player.shots_group = shots_group
-    asteroidfield = AsteroidField()
+    asteroidfield = AsteroidField(asteroid_image)
 
     while True:
         for event in pygame.event.get():
