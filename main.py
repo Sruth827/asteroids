@@ -20,9 +20,13 @@ def main():
     #background image 
     bg_image = pygame.image.load('space.jpg')
     bg_image = pygame.transform.scale(bg_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
-
-    asteroid_image = pygame.image.load("asteroid_transparent.png").convert_alpha()
     
+    #load asteroid images and laser shot image 
+    craft_image = pygame.image.load("spacecraft.png").convert_alpha() 
+    asteroid_image = pygame.image.load("asteroid_transparent.png").convert_alpha()
+    shot_image = pygame.image.load("shot.png").convert_alpha()
+
+
     #groups to be used as containers
     updatable = Group()
     drawable = Group()
@@ -33,7 +37,7 @@ def main():
     AsteroidField.containers = (updatable)
     Shot.containers = (shots_group, updatable, drawable)
     
-    player = Player(x, y, PLAYER_RADIUS)
+    player = Player(x, y, PLAYER_RADIUS,craft_image, shot_image)
     player.shots_group = shots_group
     asteroidfield = AsteroidField(asteroid_image)
 
@@ -63,7 +67,7 @@ def main():
         #flip display
         pygame.display.flip()
         #maintain 60fps
-        dt = clock.tick(144) / 1000
+        dt = clock.tick(60) / 1000
 
     print("Starting Asteroids!")
     print(f"Screen width: {SCREEN_WIDTH}")

@@ -4,10 +4,15 @@ from circleshape import *
 from shot import Shot
 
 class Player(CircleShape):
-    def __init__(self, x, y, PLAYER_RADIUS):
+    def __init__(self, x, y, PLAYER_RADIUS, craft, image):
         super().__init__(x, y, PLAYER_RADIUS)       
         self.rotation = 0
         self.timer = 0
+        self.craft_image = craft
+        self.scaled_craft_image = pygame.transform.scale(self.craft_image, (self.radius *3, self.radius *3))
+        self.shot_img = image
+        self.scaled_shot_img = pygame.transform.scale(self.shot_img, (self.radius * 1.5 , self.radius * 1)) 
+        self.rotated_shot_img = pygame.transform.rotate(self.scaled_shot_img, -self.rotation + 90)
 
     def triangle(self):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
@@ -18,11 +23,10 @@ class Player(CircleShape):
         return [a, b, c]
 
     def draw(self, screen):
-        craft_image = pygame.image.load("spacecraft.png").convert_alpha()
-        scaled_craft_image = pygame.transform.scale(craft_image, (self.radius *3, self.radius *3))
-        rotated_craft_image = pygame.transform.rotate(scaled_craft_image, -self.rotation + 270)
-        rect = rotated_craft_image.get_rect(center=self.position)
-        screen.blit(rotated_craft_image, rect)
+        pygame.draw.circle(screen, (255, 255, 255, 1), self.position, self.radius, 2)
+        self.rotated_craft_image = pygame.transform.rotate(self.scaled_craft_image, -self.rotation + 270)
+        rect = self.rotated_craft_image.get_rect(center=self.position)
+        screen.blit(self.rotated_craft_image, rect)
 
     def rotate(self, dt):
         self.rotation += PLAYER_TURN_SPEED * dt
@@ -51,10 +55,8 @@ class Player(CircleShape):
 
     def shoot(self, dt):
         self.timer = PLAYER_SHOOT_COOLDOWN
-        shot = Shot(self.position.x, self.position.y , SHOT_RADIUS)
-        velocity = pygame.Vector2(0, 1)
-        velocity = velocity.rotate(self.rotation)  
-        velocity *= PLAYER_SHOT_SPEED
+        shot = Shot(self.position.x, self.position.y , SHOT_RADIUS, self.scaled_shot_img)
+        velocity = pygame.Vector2(0, 1).rotate(self.rotation)* PLAYER_SHOT_SPEED
         shot.velocity = velocity
 
         self.shots_group.add(shot)
